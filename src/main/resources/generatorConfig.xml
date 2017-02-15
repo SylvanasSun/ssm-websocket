@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <classPathEntry
+            location="D:\Development\MySQL\Connector.J 5.1\mysql-connector-java-5.1.40-bin.jar"/>
+    <context id="context1">
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <!-- 去除自动生成的注释 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection
+                connectionURL="jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf8"
+                driverClass="com.mysql.jdbc.Driver" password="test" userId="test"/>
+        <!-- 生成实体类 -->
+        <javaModelGenerator targetPackage="com.sylvanas.websocket.pojo" targetProject="src/main/java"/>
+        <!-- 生成mapping.xml -->
+        <sqlMapGenerator targetPackage="com.sylvanas.websocket.dao" targetProject="src/main/resources/mapping"/>
+        <!-- 生成Mapper -->
+        <javaClientGenerator targetPackage="com.sylvanas.websocket.dao"
+                             targetProject="src/main/java" type="XMLMAPPER"/>
+
+        <table schema="test" tableName="message_content"/>
+    </context>
+</generatorConfiguration>
