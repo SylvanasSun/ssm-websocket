@@ -18,6 +18,8 @@ public interface MessageContentMapper {
 
     List<MessageContent> selectByExample(MessageContentExample example);
 
+    List<MessageContent> findAll();
+
     MessageContent selectByPrimaryKey(Integer mId);
 
     int updateByExampleSelective(@Param("record") MessageContent record, @Param("example") MessageContentExample example);

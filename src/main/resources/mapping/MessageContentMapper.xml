@@ -83,6 +83,11 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="findAll" parameterType="String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM message_content
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
