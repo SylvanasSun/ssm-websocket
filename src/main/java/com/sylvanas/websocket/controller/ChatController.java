@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  * Created by SylvanasSun on 2017/2/16.
  */
-@ServerEndpoint(value = "/chat", configurator = SpringConfigurator.class)
+@ServerEndpoint(value = "/websocket/chat", configurator = SpringConfigurator.class)
 public class ChatController {
 
     //用于记录当前在线连接数
@@ -51,7 +51,7 @@ public class ChatController {
         this.session = session;
         onlineCount.incrementAndGet(); //在线连接数++
         chatSet.add(this); //将当前chat对象放入集合
-        System.out.println("[CHAT CONNECTION OPEN] 发现新连接,当前在线人数为: " + onlineCount.get());
+        System.out.println("[WEBSOCKET CONNECTION OPEN] 发现新连接,当前在线人数为: " + onlineCount.get());
     }
 
     /**
@@ -61,7 +61,7 @@ public class ChatController {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-        System.out.println("[CHAT ERROR]");
+        System.out.println("[WEBSOCKET ERROR]");
         error.printStackTrace();
     }
 
@@ -72,7 +72,7 @@ public class ChatController {
     public void onClose() {
         onlineCount.decrementAndGet(); //在线连接数--
         chatSet.remove(this); //将当前chat对象移出集合
-        System.out.println("[CHAT CONNECTION CLOSE] 发现连接断开,当前在线人数为: " + onlineCount.get());
+        System.out.println("[WEBSOCKET CONNECTION CLOSE] 发现连接断开,当前在线人数为: " + onlineCount.get());
     }
 
     /**
@@ -83,7 +83,7 @@ public class ChatController {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("[CHAT MESSAGE] 接收到客户端发送消息: " + message);
+        System.out.println("[WEBSOCKET MESSAGE] 接收到客户端发送消息: " + message);
         //对集合中的chat对象进行广播
         if (!chatSet.isEmpty()) {
             for (ChatController chat : chatSet) {

@@ -14,6 +14,7 @@ import java.util.List;
 @Service("messageContentService")
 public class MessageContentServiceImpl implements MessageContentService {
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private MessageContentMapper messageContentMapper;
 

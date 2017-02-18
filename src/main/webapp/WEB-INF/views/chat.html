@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>聊天室</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <!-- ueditor -->
+        <script type="text/javascript" charset="utf-8" src="../../ueditor-utf8-jsp/ueditor.config.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="../../ueditor-utf8-jsp/ueditor.all.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="../../ueditor-utf8-jsp/lang/zh-cn/zh-cn.js"></script>
+    </head>
+    <body>
+    <div id="app">
+    <input id="text" v-model="sendContent" type="text"/>
+    <button v-on:click="send">发送</button>
+    <button v-on:click="closeWebSocket">关闭连接</button>
+    <div id="message">{{ messageContent }}</div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">聊天室</div>
+                    <div id="msg" class="panel-body">
+                    </div>
+                    <div class="panel-footer">
+                        在线人数<span id="onlineCount">1</span>人
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <script id="editor" type="text/plain" style="width:1024px;height:200px;"></script>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-right">
+                    <button v-on:click="sendByEditor" class="btn btn-success">发送</button>
+                    <button class="btn btn-success"><a href="../../index.html">返回主页</a></button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </body>
+    <script type="text/javascript">
+        var ue = UE.getEditor('editor'); //创建ueditor
+        var ws = null; //websocket对象
+
+        //判断当前浏览器是否支持websocket
+        var wsURI = 'ws://localhost:8080/websocket/chat';
+        if ('WebSocket' in window) {
+            ws = new WebSocket(wsURI);
+        } else if ('MozWebSocket' in window) {
+            ws = new MozWebSocket(wsURI);
+        } else {
+            alert("当前浏览器不支持WebSocket!");
+        }
+
+        //创建vue
+        var vm = new Vue({
+            el : '#app',
+            data : {
+                sendContent : '', //绑定到input#text中
+                messageContent : '' //绑定到了div#message
+            },
+            methods : {
+                send : function () {
+                    var message = this.sendContent; //获得输入的数据
+                    ws.send(message); //发送消息
+                    this.sendContent = ''; //将数据置空
+                },
+                closeWebSocket : function () {
+                    ws.close();  
+                },
+                sendByEditor : function () {
+                    var msg = ue.getContent();
+                    ws.send(msg);
+                    ue.setContent('');
+                }
+            }
+        });
+
+        //连接成功回调函数
+        ws.onopen = function (event) {
+            vm.messageContent = "聊天室连接成功!";
+        };
+
+        //连接发生异常回调函数
+        ws.onerror = function () {
+            vm.messageContent = "聊天室发生异常错误!";
+        };
+
+        //连接关闭回调函数
+        ws.onclose = function () {
+            vm.messageContent = "聊天室连接已断开！";
+        };
+
+        //连接接收到消息回调函数
+        ws.onmessage = function(event) {
+            vm.messageContent = event.data;
+        };
+
+        //监听窗口关闭事件,当窗口关闭时,关闭WebSocket连接
+        window.onbeforeunload = function () {
+            var is = confirm("确定要关闭当前窗口吗?");
+            if (is) {
+                ws.close();
+            }
+        };
+
+    </script>
+</html>

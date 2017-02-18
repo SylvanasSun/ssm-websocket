@@ -6,7 +6,7 @@
     <display-name>Archetype Created Web Application</display-name>
 
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
     <!-- 加载Spring配置 -->
@@ -21,8 +21,8 @@
     <listener>
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
     </listener>
-    
-    <!-- Spring MVC -->
+
+    <!-- Spring MVC servlet -->
     <servlet>
         <servlet-name>SpringMVC</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -30,8 +30,8 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring-mvc.xml</param-value>
         </init-param>
-        <async-supported>true</async-supported>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>SpringMVC</servlet-name>
@@ -62,6 +62,7 @@
     <filter>
         <filter-name>DruidWebStatFilter</filter-name>
         <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+        <async-supported>true</async-supported>
         <init-param>
             <param-name>exclusions</param-name>
             <param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,/download/*</param-value>
@@ -74,6 +75,7 @@
     <servlet>
         <servlet-name>DruidStatView</servlet-name>
         <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+        <async-supported>true</async-supported>
         <init-param>
             <!-- 用户名 -->
             <param-name>loginUsername</param-name>
@@ -127,10 +129,10 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.ico</url-pattern>
     </servlet-mapping>
-    
+
     <error-page>
         <error-code>404</error-code>
-        <location>/404.html</location>
+        <location>/WEB-INF/views/404.html</location>
     </error-page>
 
 </web-app>
