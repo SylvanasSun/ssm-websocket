@@ -22,6 +22,7 @@
         <javaClientGenerator targetPackage="com.sylvanas.websocket.dao"
                              targetProject="src/main/java" type="XMLMAPPER"/>
 
-        <table schema="test" tableName="message_content"/>
+        <table schema="test" tableName="user"/>
+        <table schema="test" tableName="role"/>
     </context>
 </generatorConfiguration>

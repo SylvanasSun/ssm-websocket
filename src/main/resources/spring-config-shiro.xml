@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 配置自定义的Realm -->
+    <bean id="userRealm" class="com.sylvanas.websocket.shiro.UserRealm"/>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="userRealm"/>
+    </bean>
+
+    <!-- Shiro过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- 注入安全管理器 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 登录页面 -->
+        <property name="loginUrl" value="/loginUI"/>
+        <!-- 权限认证失败,跳转的页面 -->
+        <property name="unauthorizedUrl" value="/loginUI"/>
+        <!-- Shiro过滤链配置 -->
+        <property name="filterChainDefinitions">
+            <value>
+                <!-- anon表示匿名访问,不需要认证和权限 -->
+                /=anon
+                /login=anon
+                /404=anon
+                /loginUI=anon
+
+                <!-- authc表示需要认证 没有进行身份认证是不能进行访问的 -->
+                /index=authc
+                /chat=authc
+
+                <!-- 以下url需要对应的角色和权限才能通过 -->
+                /chat=roles[admin]
+                <!--/chat=perms["admin:admin"]-->
+            </value>
+        </property>
+    </bean>
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行  -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 开启Shiro注解 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+</beans>

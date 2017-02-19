@@ -6,13 +6,13 @@
     <display-name>Archetype Created Web Application</display-name>
 
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>/index</welcome-file>
     </welcome-file-list>
 
     <!-- 加载Spring配置 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-mybatis.xml</param-value>
+        <param-value>classpath:spring-config-*.xml</param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -37,6 +37,23 @@
         <servlet-name>SpringMVC</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <!-- Shiro过滤器 -->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <!-- 该值缺省为false,表示生命周期由SpringApplicationContext管理,
+                    设置为true则表示由ServletContainer管理 -->
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <async-supported>true</async-supported>
+    </filter>
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <!-- 编码过滤器 -->
     <filter>

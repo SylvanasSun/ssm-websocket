@@ -20,4 +20,19 @@ public class CommonController {
         return "hello";
     }
 
+    @RequestMapping("/404")
+    public String error404() {
+        return "404";
+    }
+
+    @RequestMapping("/index")
+    public String index() {
+        return "index";
+    }
+
+    @RequestMapping("/loginUI")
+    public String loginUI() {
+        return "loginUI";
+    }
+
 }
