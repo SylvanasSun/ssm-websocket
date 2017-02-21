@@ -13,6 +13,37 @@ public class MessageContent {
 
     private Date mUpdatedtime;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MessageContent that = (MessageContent) o;
+
+        if (mId != null ? !mId.equals(that.mId) : that.mId != null) return false;
+        if (mName != null ? !mName.equals(that.mName) : that.mName != null) return false;
+        return mContent != null ? mContent.equals(that.mContent) : that.mContent == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mId != null ? mId.hashCode() : 0;
+        result = 31 * result + (mName != null ? mName.hashCode() : 0);
+        result = 31 * result + (mContent != null ? mContent.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageContent{" +
+                "mId=" + mId +
+                ", mName='" + mName + '\'' +
+                ", mContent='" + mContent + '\'' +
+                ", mCreatedtime=" + mCreatedtime +
+                ", mUpdatedtime=" + mUpdatedtime +
+                '}';
+    }
+
     public Integer getmId() {
         return mId;
     }

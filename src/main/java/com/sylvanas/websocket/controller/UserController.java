@@ -2,7 +2,6 @@ package com.sylvanas.websocket.controller;
 
 import com.sylvanas.websocket.pojo.User;
 import com.sylvanas.websocket.service.UserService;
-import org.apache.commons.codec.binary.Hex;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
