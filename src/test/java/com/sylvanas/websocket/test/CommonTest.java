@@ -1,6 +1,5 @@
 package com.sylvanas.websocket.test;
 
-import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
 import java.math.BigInteger;
