@@ -13,10 +13,10 @@ import java.security.NoSuchAlgorithmException;
 public class CommonTest {
 
     @Test
-    public void test01() throws NoSuchAlgorithmException {
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        md5.update("123456".getBytes());
-        System.out.println(Hex.encodeHexString(md5.digest()));
+    public void testMd5() throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("md5");
+        md5.update("Hello,World!".getBytes());
+        System.out.println(new BigInteger(1,md5.digest()).toString(16));
     }
 
 }
