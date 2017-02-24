@@ -1,5 +1,7 @@
 ### SSM WebSocket Example.
 
+[![Build Status](https://travis-ci.org/SylvanasSun/ssm-websocket.svg?branch=master)](https://travis-ci.org/SylvanasSun/ssm-websocket)
+
 使用JSR-356标准实现的WebSocket Chat Demo.
 
 该Project搭建于jdk1.7&tomcat8,后端使用了SSM框架,前端使用了vue.js&bootstrap.
